@@ -1,0 +1,11 @@
+[package]
+name = "aegis-kernel"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+sel4 = { git = "https://github.com/seL4/rust-sel4", branch = "main" }
+sel4-sys = { git = "https://github.com/seL4/seL4-sys", branch = "main" }
+
+[lib]
+crate-type = ["staticlib"]
