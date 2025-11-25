@@ -1,0 +1,33 @@
+name: Aegis OS CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: nightly-2025-11-25
+        targets: aarch64-unknown-none
+        components: rust-src, llvm-tools
+
+    - name: Check code
+      run: cargo check --target aarch64-unknown-none
+
+    - name: Build kernel
+      run: cargo build --release --target aarch64-unknown-none -p aegis-kernel
+
+    - name: Test keygen
+      run: cargo run -p aegis-keygen --bin keygen
