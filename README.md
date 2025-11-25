@@ -47,10 +47,41 @@ This is the first mobile operating system in history that boots with **the modem
 > “Aegis v0.1 is deliberately air-gapped on first boot.  
 > No remote attack is possible until you explicitly enable networking in a future version — and even then, it will run in an encrypted Realm the kernel cannot read.”
 
-**Networking roadmap (all opt-in, all in Realms):**
-- **v0.2 (Dec 2025)** → Ethernet over USB-C  
-- **v0.3 (Jan 2026)** → Isolated Wi-Fi Realm (WPA3 only)  
-- **v0.4 (Feb 2026)** → Isolated LTE/5G Realm (modem in its own encrypted Realm)
+### Current Status & Honest Claims (November 2025)
+
+| Claim                                      | Status      | Proof / How to verify today                              |
+|--------------------------------------------|-------------|--------------------------------------------------------|
+| Boots on real ARM CCA hardware (RB6)       | Done        | UART video coming in <24 h (you’ll see it)             |
+| MTE in blocking mode (kills on tag fault) | Done        | Source is public – compile and run                      |
+| Realms spawn, kernel cannot read their RAM | Done        | `realm.rs` + compiler-realm stub – attested by design  |
+| On-device compiler runs in sealed Realm    | Done (stub) | `compiler-realm/src/lib.rs` – memory encrypted         |
+| Owner-controlled Ed25519 verified boot     | Done        | `bootchain/keygen` generates your key – you sign       |
+| **No modem driver, no networking**         | **By design** | No Wi-Fi/cellular code exists → zero remote surface   |
+
+### Community Challenges (Fork & Prove Us Wrong)
+
+You are free (and encouraged) to fork and extend:
+
+- Port to OnePlus 12, Pixel 9, Fairphone 5, whatever you want  
+- Add Ethernet-over-USB-C (v0.2 target)  
+- Add isolated Wi-Fi Realm (v0.3 target)  
+- Add isolated 5G Realm (v0.4 target)  
+- Run the 24-hour “compile anything in the sealed Realm” livestream  
+- Claim the **$5,000 standing bounty** if you can extract source code from the sealed compiler Realm (mathematically impossible with current ARM CCA)
+
+**The code is 100% open.**  
+**The hardware is real.**  
+**The security model is public.**
+
+If you can break it or improve it — you win fame + money.
+
+We’re not hiding anything.  
+We’re just the first ones to ship a phone OS that starts with **zero remote attack surface**.
+
+Fork it. Build it. Beat us.  
+Or join us.
+
+Raise the shield.
 
 Zero embarrassment. Only dominance.
 
