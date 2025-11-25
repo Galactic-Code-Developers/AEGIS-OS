@@ -1,22 +1,27 @@
 #![no_std]
 #![no_main]
-#![feature(naked_functions, asm_const)]
+#![feature(asm_const, naked_functions)]
 
 use core::arch::global_asm;
-
 global_asm!(include_str!("entry.S"));
 
-mod realm;
 mod supervisor;
+mod realm;
 
 #[no_mangle]
-pub unsafe extern "C" fn _start() -> ! {
+pub unsafe extern "C" fn _start_rust() -> ! {
     supervisor::init();
-    realm::test_spawn();
-    loop { core::arch::asm!("wfe") }
+    realm::spawn_compiler();
+    realm::spawn_shell();
+
+    println!("[AEGIS] All Realms spawned – entering idle");
+    loop {
+        core::arch::asm!("wfe");
+    }
 }
 
 #[panic_handler]
-fn panic(_info: &core::panic::PanicInfo) -> ! {
+fn panic(info: &core::panic::PanicInfo) -> ! {
+    println!("[PANIC] {info}");
     loop {}
 }
