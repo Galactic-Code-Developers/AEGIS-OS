@@ -1,0 +1,27 @@
+[package]
+name = "aegis-compiler-realm"
+version = "0.1.0"
+edition = "2021"
+authors = ["Aegis Masters"]
+
+[lib]
+crate-type = ["staticlib"]
+path = "src/lib.rs"
+
+[dependencies]
+# These will be built from source inside the Realm – no network, no leaks
+rustc_driver = { version = "1.80", default-features = false }
+rustc_interface = { version = "1.80", default-features = false }
+rustc_middle = { version = "1.80", default-features = false }
+
+# Sealed environment
+sealed = { git = "https://github.com/aegis-os/sealed-rs", rev = "a1f3b9c" }
+
+[profile.release]
+panic = "abort"
+lto = true
+codegen-units = 1
+opt-level = "z"
+
+[profile.dev]
+panic = "abort"
