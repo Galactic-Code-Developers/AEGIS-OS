@@ -1,0 +1,11 @@
+[package]
+name = "aegis-shell"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "shell"
+path = "src/main.rs"
+
+[dependencies]
+# Minimal no-std setup – everything runs in sealed Realm
