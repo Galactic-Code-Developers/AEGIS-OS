@@ -1,0 +1,26 @@
+# Aegis OS v0.1 – Root workspace
+[workspace]
+members = [
+    "kernel",
+    "bootchain/keygen",
+    "compiler-realm",
+    "userspace/init",
+    "userspace/shell",
+]
+
+# All crates inherit these settings
+[workspace.dependencies]
+ed25519-dalek = { version = "2.0", features = ["rand_core"] }
+rand = "0.8"
+
+# Global profiles – smaller, faster, safer binaries
+[profile.release]
+panic = "abort"
+lto = true
+codegen-units = 1
+opt-level = "z"
+strip = true
+
+[profile.dev]
+panic = "abort"
+overflow-checks = false
