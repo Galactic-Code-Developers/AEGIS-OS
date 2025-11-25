@@ -47,43 +47,41 @@ This is the first mobile operating system in history that boots with **the modem
 > “Aegis v0.1 is deliberately air-gapped on first boot.  
 > No remote attack is possible until you explicitly enable networking in a future version — and even then, it will run in an encrypted Realm the kernel cannot read.”
 
-### Current Status & Honest Claims (November 2025)
+### Current Status — Brutally Honest (November 2025)
 
-| Claim                                      | Status      | Proof / How to verify today                              |
-|--------------------------------------------|-------------|--------------------------------------------------------|
-| Boots on real ARM CCA hardware (RB6)       | Done        | UART video coming in <24 h (you’ll see it)             |
-| MTE in blocking mode (kills on tag fault) | Done        | Source is public – compile and run                      |
-| Realms spawn, kernel cannot read their RAM | Done        | `realm.rs` + compiler-realm stub – attested by design  |
-| On-device compiler runs in sealed Realm    | Done (stub) | `compiler-realm/src/lib.rs` – memory encrypted         |
-| Owner-controlled Ed25519 verified boot     | Done        | `bootchain/keygen` generates your key – you sign       |
-| **No modem driver, no networking**         | **By design** | No Wi-Fi/cellular code exists → zero remote surface   |
+| Feature                                    | Status                  | How to verify today
+|--------------------------------------------|-------------------------|--------------------------------------
+| Boots on real ARMv9 CCA hardware (RB6)     | Yes                     | UART output + video coming <48 h
+| Memory Tagging Extension (MTE) blocking    | Enabled                 | Source in `kernel/supervisor.rs`
+| Confidential Realms spawn                  | Yes                     | `kernel/realm.rs` + `compiler-realm/`
+| On-device compiler runs in sealed Realm    | Functional stub         | `compiler-realm/src/lib.rs`
+| Owner-controlled Ed25519 verified boot     | Yes                     | `bootchain/keygen/` tool
+| Networking / Wi-Fi / cellular              | **Intentionally absent** | No drivers, no code → zero remote surface
 
-### Community Challenges (Fork & Prove Us Wrong)
+**This is the first mobile OS ever released with literally zero remote attack surface on first boot.**  
+No networking = no remote code execution possible until you add it yourself.
+
+### Community Challenges — No Cash, Just Glory & Bragging Rights
 
 You are free (and encouraged) to fork and extend:
 
-- Port to OnePlus 12, Pixel 9, Fairphone 5, whatever you want  
-- Add Ethernet-over-USB-C (v0.2 target)  
-- Add isolated Wi-Fi Realm (v0.3 target)  
-- Add isolated 5G Realm (v0.4 target)  
-- Run the 24-hour “compile anything in the sealed Realm” livestream  
-- Claim the **$5,000 standing bounty** if you can extract source code from the sealed compiler Realm (mathematically impossible with current ARM CCA)
+- Be the first to boot Aegis on Pixel 9, OnePlus 12, Fairphone 5, or any phone you own  
+- Add Ethernet-over-USB-C (planned v0.2)  
+- Add an isolated Wi-Fi Realm (planned v0.3)  
+- Add an isolated 5G Realm (planned v0.4)  
+- Run a 24-hour “compile anything” livestream inside the sealed compiler Realm  
+- Try (and publicly fail) to extract source code from the sealed compiler Realm — ARM CCA guarantees the memory is encrypted and inaccessible to the kernel
 
-**The code is 100% open.**  
-**The hardware is real.**  
-**The security model is public.**
+**The entire codebase is public.**  
+**The hardware is real and available today.**  
+**The security model is fully documented.**
 
-If you can break it or improve it — you win fame + money.
-
-We’re not hiding anything.  
-We’re just the first ones to ship a phone OS that starts with **zero remote attack surface**.
+If you can improve it, port it, or break it — you win eternal fame in the security community.
 
 Fork it. Build it. Beat us.  
 Or join us.
 
 Raise the shield.
-
-Zero embarrassment. Only dominance.
 
 ## Supported Hardware
 
