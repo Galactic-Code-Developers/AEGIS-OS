@@ -153,7 +153,7 @@ aegis/
 
 ## Contributing (Masters Only)
 
-1. Fork [https://github.com/aegis-os/aegis](https://github.com/Galactic-Code-Developers/AEGIS-OS)  
+1. Fork [https://github.com/Galactic-Code-Developers/aegis-os/aegis](https://github.com/Galactic-Code-Developers/AEGIS-OS)  
 2. **No C/C++** in kernel or privileged Realms  
 3. All new code = **Rust + memory-safe**  
 4. New Realms must be **sealed + attested**  
@@ -171,5 +171,5 @@ aegis/
 
 ## Raise the Shield
 
-github.com/aegis-os/aegis • #aegis-os on Matrix  
+[https://github.com/Galactic-Code-Developers/AEGIS-OS • #aegis-os on Matrix  
 Flash it today → change everything tomorrow.
