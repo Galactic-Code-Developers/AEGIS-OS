@@ -34,3 +34,12 @@
 | Qualcomm RB6 (QCS6490)        | Yes     | Yes | ~$1,200         | Primary – fully working |
 | Google Pixel 9 / 9 Pro XL     | Yes     | Yes | $799–$1,099     | Experimental boot       |
 | Future custom RISC-V SoC      | Yes     | Yes | 2027+           | Phase 3                 |
+
+git clone https://github.com/aegis-os/aegis.git
+cd aegis
+
+rustup toolchain install nightly-2025-11-25
+rustup target add aarch64-unknown-none
+
+./scripts/build_all.sh --target rb6
+sudo ./scripts/flash_rb6.sh aegis-boot.img
