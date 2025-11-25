@@ -6,28 +6,38 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  CARGO_TERM_COLOR: always
-  RUST_BACKTRACE: 1
-
 jobs:
-  check:
+  build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Rust
-      uses: dtolnay/rust-toolchain@stable
+    - name: Install Rust toolchain
+      uses: dtolnay/rust-toolchain@nightly
       with:
         toolchain: nightly-2025-11-25
         targets: aarch64-unknown-none
         components: rust-src, llvm-tools
 
-    - name: Check code
-      run: cargo check --target aarch64-unknown-none
+    - name: Cache cargo registry
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Check formatting (optional)
+      run: rustfmt --version && cargo fmt -- --check || true
 
     - name: Build kernel
       run: cargo build --release --target aarch64-unknown-none -p aegis-kernel
 
-    - name: Test keygen
-      run: cargo run -p aegis-keygen --bin keygen
+    - name: Build userspace binaries
+      run: |
+        cargo build --release --bin init
+        cargo build --release --bin shell
+
+    - name: Run keygen (host tool)
+      run: cargo run --release --bin keygen --manifest-path bootchain/keygen/Cargo.toml
